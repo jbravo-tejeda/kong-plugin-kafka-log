@@ -1,5 +1,5 @@
 local kafka_producer = require "resty.kafka.producer"
-local types = require "kong.plugins.kafka-log.types"
+local types = require "kong.plugins.verifi-kafka-log.types"
 local ipairs = ipairs
 
 --- Creates a new Kafka Producer.

@@ -1,4 +1,4 @@
-local types = require "kong.plugins.kafka-log.types"
+local types = require "kong.plugins.verifi-kafka-log.types"
 local utils = require "kong.tools.utils"
 
 --- Validates value of `bootstrap_servers` field.
@@ -18,7 +18,10 @@ end
 --- (Re)assigns a unique id on every configuration update.
 -- since `uuid` is not a part of the `fields`, clients won't be able to change it
 local function regenerate_uuid(schema, plugin_t, dao, is_updating)
+  kong.log.debug("[verifi-kafka-log] UUID generation before")
   plugin_t.uuid = utils.uuid()
+  kong.log.debug("[verifi-kafka-log] UUID generation after: ", plugin_t.uuid)
+  kong.log.debug(plugin_t)
   return true
 end
 
@@ -37,6 +40,7 @@ return {
     producer_async = { type = "boolean", default = true },
     producer_async_flush_timeout = { type = "number", default = 1000 },
     producer_async_buffering_limits_messages_in_memory = { type = "number", default = 50000 },
+    log_response_body = { type = "boolean", default = false },
   },
   self_check = regenerate_uuid,
 }
